@@ -2,7 +2,7 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://RodionKipitok.github.io/Phonebook-v4/",
+  "homepage": "https://RodionKipitok.github.io/Phonebook-v4.1v/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
