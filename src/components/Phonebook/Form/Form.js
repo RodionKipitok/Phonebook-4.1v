@@ -1,4 +1,3 @@
-import React from 'react';
 import '../Form/form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
@@ -18,22 +17,9 @@ const initialValues = {
   number: '',
 };
 
-export function PhonebookForm({ state, onSubmit }) {
+export function PhonebookForm({ addContact }) {
   const hendelSubmit = (values, actions) => {
-    const dataContacts = state;
-    const nameInput = values.name;
-
-    const isContact = dataContacts.some(item => {
-      return nameInput.toLowerCase() === item.name.toLowerCase();
-    });
-
-    if (!!isContact) {
-      alert(`${nameInput} is already in contacts`);
-      actions.resetForm();
-    } else {
-      onSubmit(values);
-      actions.resetForm();
-    }
+    addContact(values, actions.resetForm);
   };
   return (
     <>

@@ -1,33 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import { PhonebookForm } from './Phonebook/Form/Form';
 import Filter from './Phonebook/Filter/Filter';
 import Contacts from './Phonebook/Contact/Contacts';
 
 export default function App(params) {
-  const [contacts, setContacts] = useState(showLocalStorageContacts());
-  const [filterState, setFilter] = useState('');
+  const data = [
+    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  ];
+  const [contacts, setContacts] = useState(data);
+  const [filterContactValue, setFilterContactValue] = useState('');
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const handleChange = evt => {
-    setFilter(evt.target.value);
-  };
-
-  function showLocalStorageContacts() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContact = JSON.parse(contacts);
-
-    if (parsedContact === null) {
-      return [];
-    }
-
-    return parsedContact;
-  }
-
-  const saveNewContact = ({ name, number }) => {
+  const addContact = (dataContact, funRestForm) => {
+    const { name, number } = dataContact;
     const nanoid = customAlphabet('1234567890abcdef', 10);
     let id = nanoid(5);
     const newContact = {
@@ -35,8 +23,17 @@ export default function App(params) {
       name,
       number,
     };
+    const isContact = contacts.some(itam => {
+      return name.toLowerCase() === itam.name.toLowerCase();
+    });
 
-    setContacts(prevState => [...prevState, newContact]);
+    if (!!isContact) {
+      alert(`${name} is already in contacts`);
+      funRestForm();
+    } else {
+      setContacts(prevState => [...prevState, newContact]);
+      funRestForm();
+    }
   };
 
   const deleteContact = id => {
@@ -45,25 +42,24 @@ export default function App(params) {
     });
   };
 
-  const onFilterName = evt => {
-    if (contacts.lenght < 0) {
-      return;
+  const filterContact = () => {
+    if (!filterContactValue) {
+      return contacts;
     }
-    const filterInputValue = filterState;
-    const filterName = contacts.filter(({ name }) => {
-      return name.toLowerCase().includes(filterInputValue.toLowerCase());
+
+    return contacts.filter(({ name }) => {
+      return name.toLowerCase().includes(filterContactValue.toLowerCase());
     });
-
-    console.log(contacts);
-
-    return filterName;
   };
 
   return (
     <>
-      <PhonebookForm state={contacts} onSubmit={saveNewContact} />
-      <Filter state={filterState} onChange={handleChange} />
-      <Contacts data={onFilterName()} deleteContacts={deleteContact} />
+      <PhonebookForm addContact={addContact} />
+      <Filter
+        filterInputValue={filterContactValue}
+        funFilter={setFilterContactValue}
+      />
+      <Contacts contacts={filterContact()} funDelete={deleteContact} />
     </>
   );
 }
