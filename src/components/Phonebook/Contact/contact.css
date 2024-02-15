@@ -1,0 +1,21 @@
+.titleContact{
+	margin-left: 20px;
+}
+
+.list{
+	margin-top: 15px;
+}
+
+.contactItem{
+	display: flex;
+	margin-top: 15px;
+	margin-left: -15px;
+	width: 300px;
+	justify-content: space-between;
+}
+
+.btnContact{
+	border: 1px solid;
+	border-radius: 4px;
+	background-color: rgb(151, 151, 184);
+}
