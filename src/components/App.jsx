@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { customAlphabet } from 'nanoid';
 import { PhonebookForm } from './Phonebook/Form/Form';
 import Filter from './Phonebook/Filter/Filter';
 import Contacts from './Phonebook/Contact/Contacts';
 
 export default function App(params) {
-  const data = [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ];
-  const [contacts, setContacts] = useState(data);
+  const [contacts, setContacts] = useState(showLocalStorageContacts());
   const [filterContactValue, setFilterContactValue] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
+  function showLocalStorageContacts() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    if (contacts === null) {
+      return [];
+    }
+    return parsedContacts;
+  }
 
   const addContact = (dataContact, funRestForm) => {
     const { name, number } = dataContact;
@@ -54,12 +61,12 @@ export default function App(params) {
 
   return (
     <>
-      <PhonebookForm addContact={addContact} />
+      <PhonebookForm funcaddContact={addContact} />
       <Filter
         filterInputValue={filterContactValue}
-        funFilter={setFilterContactValue}
+        funcFilter={setFilterContactValue}
       />
-      <Contacts contacts={filterContact()} funDelete={deleteContact} />
+      <Contacts contacts={filterContact()} funcDelete={deleteContact} />
     </>
   );
 }

@@ -1,11 +1,11 @@
 import '../Filter/filter.css';
 
-export default function Filter({ filterInputValue, funFilter }) {
+export default function Filter({ filterInputValue, funcFilter }) {
   return (
     <>
       <p className="text">Find contacts by name</p>
       <input
-        onChange={e => funFilter(e.target.value)}
+        onChange={e => funcFilter(e.target.value)}
         className="inputFilter"
         type="text"
         name="filter"

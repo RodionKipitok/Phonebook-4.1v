@@ -17,9 +17,9 @@ const initialValues = {
   number: '',
 };
 
-export function PhonebookForm({ addContact }) {
+export function PhonebookForm({ funcaddContact }) {
   const hendelSubmit = (values, actions) => {
-    addContact(values, actions.resetForm);
+    funcaddContact(values, actions.resetForm);
   };
   return (
     <>

@@ -1,6 +1,6 @@
 import '../Contact/contact.css';
 
-export default function Contacts({ contacts, funDelete }) {
+export default function Contacts({ contacts, funcDelete }) {
   return (
     <>
       <h2 className="titleContact">Contacts</h2>
@@ -11,7 +11,7 @@ export default function Contacts({ contacts, funDelete }) {
             <button
               className="btnContact"
               onClick={() => {
-                funDelete(contact.id);
+                funcDelete(contact.id);
               }}
             >
               Delete
